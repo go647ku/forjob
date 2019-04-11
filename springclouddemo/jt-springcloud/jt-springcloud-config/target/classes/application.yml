@@ -1,0 +1,6 @@
+server:
+  port: 9080
+spring:  application:    name: springcloud-config   #定义服务的名称
+  cloud:    config:      server:        git:          #uri: https://github.com/liuyujiang666888/springcloud-config.git
+          uri: https://github.com/go647ku/student_1811.git
+          #连接远程github账户

@@ -1,0 +1,9 @@
+#bootstrap 的优先级高于application.yml
+spring:
+#  application: #    name: provider-user           #一般见名知意和配置文件一样 因为重复了，所以删了
+  cloud:
+    config:
+      name: application    #加载远程配置中心文件名称，写yml反而错了
+      profile: prod                #动态加载开发环境配置文件
+      label:  master              #获取master默认分支,权限
+      uri: http://localhost:9080/

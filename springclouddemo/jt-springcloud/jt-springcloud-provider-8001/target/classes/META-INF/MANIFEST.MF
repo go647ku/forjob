@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: jt-springcloud-provider-8001
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Acer
+Implementation-Vendor-Id: com.jt.1811
+Build-Jdk: 1.8.0_191
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/jt-springcloud/jt-springcloud-provider-8001
+Created-By: Maven Integration for Eclipse
+

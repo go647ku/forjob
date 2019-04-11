@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- @click 属性浏览器不处理，由vue框架处理  -->
+	<button @click=deleteTest> 删除 </button>
+	
+</body>
+	<script type="text/javascript">
+		
+		// 1. 写vue 框架
+		function Vue(options){
+			
+			// 1.找到所有的button(getElementsByTagName() 通过标签名获取元素)
+			var buttons = document.getElementsByTagName("button");	
+			
+			for(var i = 0;i < buttons.length; i++){
+				
+				var button = buttons[i];	
+			
+				// 2.找到所有属性
+				var attributes = button.attributes;
+			
+				for(var k = 0; k < attributes.length; k++){
+				
+					var attribute = attributes[k];
+				
+					var name = attribute.name;
+				
+					// 3.判断属性是不是@click
+					if(name == "@click"){
+				
+						// 4.完成事件绑定
+						button.onclick = options.deleteTest;	
+												
+					}
+				}
+			}
+			
+		}
+		
+		// 2.用vue框架
+		var options = {
+				
+				deleteTest:function(){
+					
+					console.log("deleteTest");
+					
+				}
+		
+		}
+		
+		var vue = new Vue(options);
+		
+	</script>
+</html>

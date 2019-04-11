@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="vue.js"></script>
+</head>
+<body>
+<div id = "app">
+	
+	<!-- 自动注入:跟框架要对象或者说要值，要个数据 那js 肯定也可以实现
+			语言都是相通的，java 里面的某些思想，js 里面也可以用到
+			ref:reference 引用，别的人用你
+			ref属性是由vue 处理
+			
+			假如你是这个架构师，你需要用到input 这个值 ，vue 框架启动时，遍历所有的input ,能不能做到，好像可以是吧
+			
+			发现input 有ref 属性，取到ref 的值是itemTitle
+			
+			Vue 中有个对象 $refs vue里面创建对象，对象名叫$refs,他可以做到
+			
+			给这个$refs 对象加个属性，这个属性名 叫做itemTitle
+			
+			vue 已经遍历了这个input ,可以加事件，因为他是基于jQuery 写的，它可以加事件
+			
+			vue 框架给input 加个blur 事件
+			
+			jt 时候，是用这个blur 来实现这个检测功能，鼠标一拍，就要去找有没有这个用户名
+			
+			你输入用户名，触发了这个事件之后：用户输入完信息后，鼠标移走，触发blur 事件，框架能够得到值，input的值
+			
+			这个对象加了属性叫itemTitle ,我们再给这个对象加个value 也行，叫做item5
+			
+			我们通过$refs.itemTitle.value = "item5";
+			
+			这个思想就是自动注入，学过spring 就很好理解 
+			
+			学了框架就要了解，什么都要框架来做
+			
+			所有东西，事件全部交给框架来管理，到时候，对象啊，切面啊，拦截器，都是由框架来处理
+			
+			举个例子:你娶的老婆是个白富美，你进他家，刚开始，你是不习惯，交往了五六次，你就习惯
+	 -->
+	
+	<!-- v-on : 事件名实现事件绑定，相当于@click -->
+	<input  ref="itemTitle"><button v-on:click="insert()">insert</button>
+	
+	<!-- 实现一个数据绑定 v-for是由vue 框架处理，先引入vue
+		数组中的数据一变，网页自动变
+		console options.data.items.push({title:"1"})
+		你看看屏幕变不变
+	 -->
+	<div v-for="item in items">
+	
+	<span>{{item.title}}</span>
+	
+	<span @click="remove(item.title)">删除</span>
+	
+	</br>
+	</div>
+
+</div>
+</body>
+<!-- <script type="text/javascript" src="vue.js"></script>放这里不行滴，需要先引入这玩意 -->
+<script type="text/javascript">
+
+	var options = {
+			
+			el:"#app",
+			
+			data:{
+				
+				items:[
+					
+					{title:"item1"},
+					
+					{title:"item2"},
+					
+					{title:"老李3"},
+					
+				]
+				
+			},
+	
+			// 他的值还是一个对象，不是函数
+			methods:{
+	
+				insert:function(){
+					
+					// 添加商品需要输入框，随时添加属性
+					console.log("insert");
+					
+					// 获取输入框的信息
+					var title = this.$refs.itemTitle.value;
+					
+					// 定义一个item 对象，属性是title
+					var item = {title:title};
+					
+					// 把这个item 值 放进去
+					options.data.items.push(item);
+					
+				},
+				
+				remove:function(param){
+					
+					// 如果单击的是商品1，传过来的就是item1
+					console.log("remove "+param);
+					
+					// 从数组中删除item1;
+					for(var i = 0; i < options.data.items.length; i++){
+						
+						if(options.data.items[i].title == param){
+					
+							// 用到splice();
+							options.data.items.splice(i,1);
+							
+							break;
+					
+						}
+					
+					}
+					
+					
+				}
+				
+			}
+	
+	};
+
+	// 启动vue 框架
+	var vue = new Vue(options);
+	
+//	var items = ["item1","item2","item3"];
+	
+//	items.splice(1,1);// 思普赖斯 第一个参数表示从哪开始删除，第二个参数表示删除几个元素
+	
+//	items.splice(1,1);// 此时只剩下item1
+	
+//	console.log(items);// 作为程序员，很重要的技能是断点 第一个是不跟了，第二个是F10 下一行
+	
+	// js 中能不能给一个对象随时添加一个新的属性 能！！！
+	window.itemTitle = new Object();
+	
+	window.itemTitle.value = "item5";
+	
+	console.log(window.itemTitle.value);
+	
+</script>
+</html>

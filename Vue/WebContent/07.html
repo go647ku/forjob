@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<button @click="insert">insert</button>
+	<button @click="deleteTest">delete</button>
+	<div id="app"></div>
+</body>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+	// 1.写框架
+	function Vue(options){
+		
+		// 找到根元素
+		var el = options.el;
+		
+		var rootElement = document.getElementById(el);
+		
+		// 每隔100ms 调用run 
+		
+		function run(){
+			
+			// 数据绑定
+			// 清空以前的数据
+			rootElement.innerHTML = "";
+			
+			var items = options.data.items;
+			
+			for(var i = 0; i < items.length; i++){
+				
+				var item = items[i];
+				
+				rootElement.innerHTML = rootElement.innerHTML+item.title+"<br/>";
+				
+			}
+			
+		}
+		
+		window.setInterval(run,100);
+		
+		// 事件绑定
+		// 找到所有的button
+		var buttons = document.getElementsByTagName("button");
+		
+		for(var i = 0; i<buttons.length; i++){
+		
+			// 找到所有属性
+			var button = buttons[i];	
+		
+			var attributes = button.attributes;
+			
+			for(var k = 0; k < attributes.length; k++){
+				
+				// 判断属性名是不是@click
+				var attribute = attributes[k];
+				
+				var name = attribute.name;
+				
+				var attributeValue = attribute.value;
+				
+				if(name == "@click"){
+				
+				// 遍历options，判断key 与属性值是否相同，
+				$.each(options,function(key,value){
+				
+					// insert: func,deleteTest:fun
+					
+					// button @click=insert
+					
+					// key 是函数名 value 是函数体
+					if(key==attributeValue){
+						
+						// 事件绑定
+						button.onclick = value;
+						
+						}
+					});
+				}
+			}
+		
+		}
+		
+	}
+	
+	// 2.用框架，主要是写个配置信息，然后启动它就可以了
+	var options = {
+			
+			el:"app",
+			
+			data:{items:[]},
+			
+			insert:function(){
+			
+				var item = {title:"新商品"};
+				
+				options.data.items.push(item);
+				
+			},
+			
+			deleteTest:function(){
+				
+				// 从数组中移出一个元素
+				options.data.items.pop();
+				
+			}
+			
+	};
+	
+	var vue = new Vue(options);
+	</script>
+	
+</html>

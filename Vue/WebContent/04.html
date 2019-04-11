@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<button onclick="insert()">insert</button>
+	<div id = "app">1</div>
+</body>
+<script type="text/javascript">
+	// 1.写框架
+	function Vue(options){
+		
+		// 1.找到根元素
+		var el=options.el
+		
+		var divObject = document.getElementById(el);
+		
+		// 2.每隔100ms执行run函数
+		function run(){
+			
+		//	console.log("run");
+			
+			// 从配置信息中取数据
+			var items=options.data.items;
+			
+			// 把商品信息显示在根元素中
+			// 清空以前的内容
+			divObject.innerHTML="";
+			
+			// 重新赋值
+			for(var i = 0;i < items.length; i++){
+				
+				var title = items[i].title;
+				
+				divObject.innerHTML = divObject.innerHTML+title+"<br>"
+				
+			}
+			
+		}
+		
+		window.setInterval(run,100);
+		
+	}
+	
+	// 2.用框架
+	var options= {
+			
+			el:"app",
+			data:{
+				
+				items:[
+					
+					{title:"item1"},
+					
+					{title:"item2"}
+					
+				]
+				
+			}
+			
+	};
+	
+	var vue = new Vue(options);
+	
+	function insert(){
+		
+		var item={title:"新商品"};
+		
+		// items [0] [1] [2]
+		var length = options.data.items.length;
+		
+		// 向数组添加新商品
+		options.data.items[length] = item;
+		
+	}
+	
+</script>
+
+</html>

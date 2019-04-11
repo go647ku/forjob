@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+window.username="root";
+console.log(this.username);
+console.log(this);
+$(function(){
+	
+	var btn=$("#insertBtn");
+	
+	btn.click(function(){console.log(this)});
+	
+});
+</script>
+</head>
+<body>
+<button id="insertBtn">insert</button>
+</body>
+</html>

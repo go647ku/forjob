@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<!-- @click 属性浏览器不处理，由vue框架处理  -->
+	<button @click=deleteTest> 删除 </button>
+	<button @click=modify> 修改 </button>
+	
+</body>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		// 1. 写vue 框架
+		function Vue(options){
+			
+			// 1.找到所有的button(getElementsByTagName() 通过标签名获取元素)
+			var buttons = document.getElementsByTagName("button");	
+			
+			for(var i = 0;i < buttons.length; i++){
+				
+				var button = buttons[i];	
+			
+				// 2.找到所有属性
+				var attributes = button.attributes;
+			
+				for(var k = 0; k < attributes.length; k++){
+				
+					var attribute = attributes[k];
+				
+					var name = attribute.name;
+					
+					// 取属性值
+					var attributeValue = attribute.value;
+					
+					// 3.判断属性是不是@click
+					if(name == "@click"){
+				
+						// 4.完成事件绑定
+						button.onclick = options.deleteTest;	
+						
+						 // options deleteTest: fun, modify:func
+						 // each 遍历options,取到一个key,value 就执行function
+						 // <div @click = deleteTest>
+						 // <div @click = modify>
+						 // 应该和属性值做比较
+						$.each(options,function( key, value){
+							
+							// 用key 函数名与属性值比较
+							if(key==attributeValue){
+								
+								button.onclick = value;
+								
+							}
+							
+							// key 是函数名
+							console.log("key=" + key);
+							
+							// value 是函数体
+							console.log("value=" + value);
+							
+						});
+					}
+				}
+			}
+			
+		}
+		
+		// 2.用vue框架
+		var options = {
+				
+				deleteTest:function(){
+					
+					console.log("deleteTest");
+					
+				},
+		
+				modify:function(){
+			
+					console.log("modify");
+					
+				}
+		}
+		
+		var vue = new Vue(options);
+		
+	</script>
+</html>

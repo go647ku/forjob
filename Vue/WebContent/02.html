@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<div id="app">666</div>
+</body>
+
+<script type="text/javascript">
+// 1: 架构师写框架
+	
+	// function 可以定义函数，可以定义类
+	function Vue(options){
+	
+	// 找到数据
+	var item = options.data.item;
+	
+	// 显示数据
+	var rootElement = options.el;
+
+	// 把这个根节点变成对象，找到这个对象，将他设置为文本
+	var divObject = document.getElementById(rootElement);
+	
+	divObject.innerHTML = item.title;
+
+}
+	
+// 2: 程序员用框架
+	var options = {
+		
+		// key 不加双引号是可以的，加了就报错
+		el:"app",
+		
+		data:{
+			
+			item:{
+				
+				title : "手机"
+				
+			},
+			
+			user:{}
+			
+		}
+		
+};
+
+var vue = new Vue(options);
+// F12 console 看结果
+
+</script>
+</html>

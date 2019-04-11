@@ -1,0 +1,223 @@
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">
+				
+				菜单管理</h3>
+
+				<div class="box-tools">
+					<div class="input-group input-group-sm" style="width: 100px;">
+						<div class="input-group-btn">
+						
+							<button type="button" 
+							class="btn btn-success btn-delete">
+							删除</button>
+							<button type="button" class="btn btn-info btn-add">添加</button>
+							<button type="button" class="btn btn-default btn-update">修改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.box-header -->
+		<div class="box-body table-responsive no-padding">
+          <table id="menuTable" class="table table-hover">
+        	<thead>
+	        <tr>
+		      <th data-field="selectItem" data-checkbox="true"></th>
+	        </tr>
+	       </thead>
+	       
+         </table>
+        </div>
+		</div>
+		<!-- /.box -->
+	</div>
+</div>
+<script type="text/javascript" src="bower_components/treegrid/jquery.treegrid.extension.js"></script>
+<script type="text/javascript" src="bower_components/treegrid/jquery.treegrid.min.js"></script>
+<script type="text/javascript" src="bower_components/treegrid/tree.table.js"></script>
+<script type="text/javascript">
+/**
+ * 初始化表格的列
+ */
+var columns = [
+{
+	field : 'selectItem',
+	radio : true
+},
+{
+	title : '菜单ID',
+	field : 'id',
+	align : 'center',
+	valign : 'middle',
+	width : '80px'
+},
+{
+	title : '菜单名称',
+	field : 'name',
+	align : 'center',
+	valign : 'middle',
+	sortable : true,
+	width : '130px'
+},
+{
+	title : '上级菜单',
+	field : 'parentName',
+	align : 'center',
+	valign : 'middle',
+	sortable : true,
+	width : '100px'
+},
+{
+	title : '类型',
+	field : 'type',
+	align : 'center',
+	valign : 'middle',
+	sortable : true,
+	width : '70px',
+	formatter : function(item, index) {
+		if (item.type == 1) {
+			return '<span class="label label-success">菜单</span>';
+		}
+		if (item.type == 2) {
+			return '<span class="label label-warning">按钮</span>';
+		}
+	}
+}, 
+{
+	title : '排序号',
+	field : 'sort',
+	align : 'center',
+	valign : 'middle',
+	sortable : true,
+	width : '70px'
+}, 
+{
+	title : '菜单URL',
+	field : 'url',
+	align : 'center',
+	valign : 'middle',
+	sortable : false,
+	width : '160px'
+}, 
+{
+	title : '授权标识',//要显示的标题名称
+	field : 'permission',//json串中的key
+	align : 'center',//水平居中
+	valign : 'middle',//垂直居中
+	sortable : false //是否排序
+} ];//格式来自官方demos -->treeGrid(jquery扩展的一个网格树插件)
+//.........................................
+$(function(){
+	//移除mainContentId位置可能绑定的数据
+	//removeData函数相当于是java集合中的clear
+	//假如希望只是移除某个数据可在removeData函数中添加key的名字
+	$("#mainContentId").removeData();
+	//页面加载完成加载数据
+	doGetObjects();
+	$(".input-group-btn")
+	.on("click",".btn-delete",doDeleteObject)
+	.on("click",".btn-add,.btn-update",doLoadEditUI)
+});
+//加载编辑页面
+function doLoadEditUI(){
+    var title;
+    //1.基于点击对象的class设置title的值
+    if($(this).hasClass("btn-add")){
+    	title="添加菜单信息";
+    }else if($(this).hasClass("btn-update")){
+    	title="修改菜单信息";
+    	var rowData=doGetCheckedItem();
+    	if(!rowData){//js中非null,0,undefined基本都为true
+    		alert("请先选择");
+    		return;
+    	}
+    	$("#mainContentId").data("rowData",rowData);
+    }
+   
+    //2.发异步请求加载页面
+    var url="menu/doMenuEditUI.do";
+    $("#mainContentId").load(url,function(){
+    	//修改编辑页面标题(html函数为jquery自带,
+    	//用于在某个位置填充内容)
+    	$(".box-title").html(title);
+    });
+}
+//获取选中的item上绑定的当前行记录
+function doGetCheckedItem(){
+	var input=$("tbody input[type='radio']:checked");
+	if(!input)return;
+	var rowData=input.parents("tr").data("rowData");
+	return rowData;
+}
+function doDeleteObject(){
+	//1.获取选中的记录id
+	//方法1:
+	//var id=$("tbody input[type='radio']:checked").val();
+	//方法2:
+	var id=doGetCheckedId();
+	if(!id){
+		alert("请先选择");return;
+	}
+	//2.给出提示是否要进行删除
+	if(!confirm("确认删除吗"))return;
+	//3.发起异步请求执行删除操作
+	//3.1定义请求参数
+	var params={"id":id};//id=1
+	//3.2定义请求url
+	var url="menu/doDeleteObject.do";
+	//3.3发送异步请求
+	$.post(url,params,function(result){
+		if(result.state==1){
+			alert(result.message);
+			//doGetObjects();//这样刷新不好
+			doDeleteRowElement();//这样刷新
+		}else{
+			alert(result.message);
+		}
+	});
+}
+function doDeleteRowElement(){
+	//1.获取选中的类型为radio的input对象
+	var input=
+	$("tbody input[type='radio']:checked");
+	//2.获取input对象对应的父级元素tr
+	var tr=input.parents("tr");
+	//3.移除tr元素
+	tr.remove();
+}
+
+function doGetCheckedId(){
+	//1.获取选中的记录
+	var selections=$("#menuTable")
+	//bootstrapTreeTable是treeGrid插件内部定义的jquery扩展函数
+	//getSelections为扩展函数内部要调用的一个方法
+	.bootstrapTreeTable("getSelections");
+	//2.对记录进行判定
+	if(selections.length==1)
+	return selections[0].id;
+}
+
+
+function doGetObjects(){
+	//1.构建treetable对象
+	var treeTable=new TreeTable(
+	    "menuTable",//tableid
+	    "menu/doFindObjects.do",//url
+	     columns); //columns
+	
+	treeTable.setExpandColumn(2);
+	//2.初始化treetable对象(底层会发起ajax请求)
+	treeTable.init();
+}
+</script>
+
+
+
+
+
+
+
+
+

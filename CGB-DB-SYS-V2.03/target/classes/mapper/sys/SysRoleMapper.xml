@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.sys.dao.SysRoleDao">
+    <select id="findObjects"
+            resultType="com.db.common.vo.CheckBox">
+           select id,name
+           from sys_roles
+    </select>
+    
+	<update id="updateObject">
+		update sys_roles
+		<set>
+			<if test="name!=null and name!=''">
+				name=#{name},
+			</if>
+			<if test="note!=null and note!=''">
+				note=#{note},
+			</if>
+			<if test="modifiedUser!=null and modifiedUser!=''">
+				modifiedUser=#{modifiedUser},
+			</if>
+			modifiedTime=now()
+		</set>
+		where id=#{id}
+	</update>
+   
+   <!-- 当使用关联查询或自定义映射,
+              一般使用resultMap. -->
+   <resultMap type="com.db.common.vo.SysRoleMenuVo" 
+              id="sysRoleMenuVo">
+             <!--一对多查询(one2many)使用collection -->
+             <collection property="menuIds"
+                         column="id"
+                         select="com.db.sys.dao.SysRoleMenuDao.findMenuIdsByRoleId">
+             </collection> 
+   </resultMap>
+   <select id="findObjectById"
+           resultMap="sysRoleMenuVo">
+           select id,name,note
+           from sys_roles
+           where id=#{id}
+   </select>
+   
+   
+   
+   
+   <!-- 本次insert操作结束要将写入到数据库的主键
+   id值存储到参数对象的id属性上.
+   1)useGeneratedKeys 表示使用自增长主键值
+   2)keyProperty对象参数对象的set方法 -->
+   <insert id="insertObject"
+           parameterType="com.db.sys.entity.SysRole"
+           useGeneratedKeys="true"
+           keyProperty="id">
+         insert into sys_roles 
+         (id,name,note,createdTime,modifiedTime,
+         createdUser,modifiedUser) 
+         values
+         (null,#{name},#{note},now(),now(),
+         #{createdUser},#{modifiedUser})
+   </insert>
+   
+   <!-- 共性代码使用sql元素定义 -->
+   <sql id="queryWhereId">
+       <where>
+          <if test="name!=null and name!=''">
+            name like concat("%",#{name},"%")
+          </if>
+       </where>
+   </sql>
+   <select id="getRowCount" resultType="int">
+       select count(*)
+       from sys_roles
+       <include refid="queryWhereId"/>
+   </select>
+   
+   <select id="findPageObjects"
+           resultType="com.db.sys.entity.SysRole">
+       select *
+       from sys_roles
+       <include refid="queryWhereId"/>
+       order by createdTime desc
+       limit #{startIndex},#{pageSize}
+   </select>
+
+</mapper>
+
+
+

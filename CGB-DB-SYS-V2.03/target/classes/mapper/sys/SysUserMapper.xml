@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.sys.dao.SysUserDao">
+  
+   <update id="updatePassword">
+       
+       update sys_users
+       set password=#{password},
+           salt=#{salt},
+           modifiedTime=now()
+       where username=#{username}
+       
+   </update>
+  
+   <!-- 基于用户名查找用户信息 -->
+   <select id="findUserByUserName"
+           resultType="com.db.sys.entity.SysUser">
+         select *
+         from sys_users
+         where username=#{username}
+   </select>
+
+   <!-- 更新用户自身信息 -->
+   <update id="updateObject"
+           parameterType="com.db.sys.entity.SysUser">
+       update sys_users
+          <set>
+             <if test="username!=null and username!=''">
+               username=#{username},
+             </if>
+             <if test="email!=null and email!=''">
+                  email=#{email},
+             </if>
+             <if test="mobile!=null and mobile!=''">
+                mobile=#{mobile},
+             </if>
+             <if test="deptId!=null and deptId!=''">
+                deptId=#{deptId},
+             </if>
+             <if test="modifiedUser!=null and modifiedUser!=''">
+                modifiedUser=#{modifiedUser},
+             </if>
+             modifiedTime=now()
+          </set>
+          where id=#{id}      
+   
+   </update>
+
+   <!-- 基于用户id查询用户以及用户对应的部门信息 -->
+   <select id="findObjectById"
+           resultMap="sysUserDeptVo">
+           select *
+           from sys_users
+           where id=#{id}
+   </select>
+
+   <!-- 插入用户自身信息
+        1)useGeneratedKeys表示使用自增主键值
+        2)keyProperty表示将记录主键值直接赋值给实体对象的id上
+         -->
+    <insert id="insertObject"
+           parameterType="com.db.sys.entity.SysUser"
+           useGeneratedKeys="true"
+           keyProperty="id">
+      insert into sys_users
+      (username,password,deptId,email,mobile,salt,valid,
+      createdTime,modifiedTime,createdUser,modifiedUser)
+      values
+      (#{username},#{password},#{deptId},#{email},#{mobile},#{salt},#{valid},
+      now(),now(),#{createdUser},#{modifiedUser})
+   </insert>
+   
+   <!-- 禁用或启用用户信息 -->
+   <update id="validById">
+        update sys_users
+        set valid=#{valid},
+            modifiedUser=#{modifiedUser},
+            modifiedTime=now()
+        where id=#{id}
+   </update>
+   <!-- 共性代码使用sql元素定义 -->
+   <sql id="queryWhereId">
+       <where>
+          <if test="username!=null and username!=''">
+            username like concat("%",#{username},"%")
+          </if>
+       </where>
+   </sql>
+   <select id="getRowCount" resultType="int">
+       select count(*)
+       from sys_users
+       <include refid="queryWhereId"/>
+   </select>
+   
+   <resultMap type="com.db.sys.vo.SysUserDeptResult"
+              id="sysUserDeptVo">
+         <!-- 多对一关联查询 -->
+         <association property="sysDept"
+                      column="deptId"
+                      select="com.db.sys.dao.SysDeptDao.findById">
+         </association>
+   </resultMap>
+   <!-- 查询用户以及用户对应部门信息(包括部门名称)-->
+   <select id="findPageObjects"
+           resultMap="sysUserDeptVo">
+       select *
+       from sys_users
+       <include refid="queryWhereId"/>
+       order by createdTime desc
+       limit #{startIndex},#{pageSize}
+   </select>
+
+</mapper>
+
+
+

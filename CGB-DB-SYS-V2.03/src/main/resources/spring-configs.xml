@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+       http://www.springframework.org/schema/mvc   
+       http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+       http://www.springframework.org/schema/tx   
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd   
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-4.3.xsd
+       http://www.springframework.org/schema/data/jpa 
+       http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+    <!-- 扫描指定的包,获取由spring管理的bean信息,例如
+                 在指定包下会查找由@Controller,@Service等相关注解修饰
+                 的类. -->
+    <context:component-scan base-package="com.db"/>
+    <!-- 导入configs.properties文件,系统底层会创建一个
+         Bean对象(类型为Properties类型)-->
+    <!--
+    <util:properties 
+          id="cfg"
+          location="classpath:configs.properties"/>
+      -->
+    <!-- 导入spring-model.xml文件(MVC中M信息会配置到model文件) -->
+    <import resource="classpath:spring-model.xml"/>
+    <!-- 导入spring-shiro.xml文件(权限配置) -->
+    <import resource="classpath:spring-shiro.xml"/>
+    <!-- 导入spring-web.xml文件(MVC中的VC信息会在此配置) --> 
+    <import resource="classpath:spring-web.xml"/> 
+    
+    <!-- 添加AOP配置(启用AOP功能) -->
+    <aop:aspectj-autoproxy/>
+    
+</beans>
+
+
+
+
+
+
+

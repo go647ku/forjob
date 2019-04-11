@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+       http://www.springframework.org/schema/mvc   
+       http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+       http://www.springframework.org/schema/tx   
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd   
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-4.3.xsd
+       http://www.springframework.org/schema/data/jpa 
+       http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+    
+    <!-- 如何配置可参考ShiroUserRealm类中的另一种方式的实现
+    <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="HashAlgorithmName" value="md5"/>
+        <property name="HashIterations" value="1"/>
+    </bean>
+    
+    <bean id="shiroUserRealm" class="com.db.sys.service.realm.ShiroUserRealm">
+        <property name="CredentialsMatcher" ref="hashedCredentialsMatcher"/>
+    </bean>
+     -->
+    <!-- 配置securityManager对象(Shiro框架的核心) -->
+    <bean id="securityManager" 
+          class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+          <property name="Realm" ref="shiroUserRealm"/>
+          <property name="CacheManager" ref="cacheManager"/>
+          <property name="SessionManager" ref="sessionManager"></property>
+    </bean>
+    
+    <!-- 配置Shiro框架的filter工厂 -->
+    <bean id="shiroFilterFactory" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+         <property name="SecurityManager" ref="securityManager"/>
+         <!-- 指定认证页面 -->
+         <property name="LoginUrl" value="/doLoginUI.do"/>
+         <!-- 设置请求过滤规则(不需要认证的,需要认证的) -->
+         <property name="FilterChainDefinitionMap">
+            <map>
+               <entry key="/bower_components/**" value="anon"/> <!-- anon表示允许匿名访问 -->
+               <entry key="/build/**" value="anon"/>
+               <entry key="/dist/**" value="anon"/>
+               <entry key="/plugins/**" value="anon"/>
+               <entry key="/user/doLogin.do" value="anon"/>
+               <entry key="/user/doLogout.do" value="logout"/><!-- 值logout由shiro提供 -->
+               <!-- 记住所有需要匿名访问的url,都要在如下语句的上面 -->
+               <entry key="/**" value="authc"/><!-- 必须认证 -->
+            </map>
+        </property>
+  </bean>    
+  <!-- 添加授权配置 -->
+     <!-- 配置bean对象的生命周期管理 -->
+     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor">
+     </bean>
+
+     <!-- 配置Bean对象的代理 -->
+     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+           depends-on="lifecycleBeanPostProcessor">
+     </bean> 
+
+     <!-- 配置授权属性-->
+     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+         <property name="SecurityManager" ref="securityManager"/>
+     </bean>
+   <!-- 添加ehcache配置 -->
+   <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/> 
+   </bean>
+   
+   <!-- 添加SessionManager配置 （设置session超时时间）-->
+   <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 设置全局session的超时时间 （单位为毫秒）-->
+        <property name="GlobalSessionTimeout" value="3600000"/>
+        <!-- 设置是否删除无效session -->
+        <property name="DeleteInvalidSessions" value="true"></property>
+   </bean>
+  
+</beans>
+
+
+
+
+
+
+

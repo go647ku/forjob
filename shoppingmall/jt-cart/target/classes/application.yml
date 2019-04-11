@@ -1,0 +1,19 @@
+server:
+  port: 8094  #定义单点登录端口
+  servlet:    context-path: / #默认都是根目录发布。该配置可以删除，默认配置就是/
+spring:  datasource:
+    #引入druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.139.136:3306/jtdb?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+#Mybatis-plus
+mybatis-plus:
+  type-aliases-package: com.jt.cart.pojo
+  mapper-locations: classpath:/mybatis/mappers/*Mapper.xml
+  #开启驼峰映射
+  configuration:
+    map-underscore-to-camel-case: true
+
+  
+  

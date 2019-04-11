@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- mybatis 中缓存说明 
+		一级缓存：默认开启的，一级缓存是sqlSession级别
+		二级缓存：默认关闭的，二级缓存是sqlSessionFactory级别，从同一个SqlSessionFactory中获取的sqlSession中获取数据，适用于多线程操作数据库
+		现在几乎不用，使用更高级的redis
+		
+		驼峰映射：resultType
+		对象                             表
+	-->
+	<settings>
+		<!-- 开启驼峰自动映射 ，使用驼峰映射，可以将字段中的_去除，然后首字母大写-->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<plugins>
+		
+		
+		<!-- 通用Mapper插件 -->
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			<!--主键自增回写方法,默认值MYSQL,详细说明请看文档 -->
+			<property name="IDENTITY" value="MYSQL" />
+			<!--通用Mapper接口，多个通用接口用逗号隔开 -->
+			<property name="mappers" value="com.jt.common.mapper.SysMapper" />
+		</plugin>
+	</plugins>
+	
+</configuration>

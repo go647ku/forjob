@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+		<!-- 1.创建objectMapper对象 -->
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"></bean>
+		<!-- spring整合redis集群 -->
+ 	<bean id="jedisClusterFactory" class="com.jt.common.factory.JedisClusterFactory"></bean> 
+<!-- <bean id="shardsJedis" class="redis.clients.jedis.ShardedJedis">
+	<constructor-arg name="shards">
+	<list>
+			<ref bean="info1"/>
+			<ref bean="info2"/>
+			<ref bean="info3"/>
+	</list>
+	</constructor-arg>
+	</bean> -->
+	
+	<!-- <bean id="info1" class="redis.clients.jedis.JedisShardInfo">
+	<constructor-arg name="host" value="${redis.host}"></constructor-arg>
+	<constructor-arg name="port" value="${redis.port.a}"></constructor-arg>
+	</bean>
+	
+	<bean id="info2" class="redis.clients.jedis.JedisShardInfo">
+	<constructor-arg name="host" value="${redis.host}"></constructor-arg>
+	<constructor-arg name="port" value="${redis.port.b}"></constructor-arg>
+	</bean>
+	
+	<bean id="info3" class="redis.clients.jedis.JedisShardInfo">
+	<constructor-arg name="host" value="${redis.host}"></constructor-arg>
+	<constructor-arg name="port" value="${redis.port.c}"></constructor-arg>
+	</bean> -->
+	
+	
+	  <!-- <bean id="jedisSentinelPool" class="redis.clients.jedis.JedisSentinelPool">
+	<constructor-arg name="masterName" value="${redis.masterName}"></constructor-arg>
+	<constructor-arg name="sentinels"> -->
+	<!-- <set>
+	<value>${redis.node1}</value>
+	</set>
+	</constructor-arg> -->
+	
+	
+	<!-- </bean> -->
+	
+</beans>

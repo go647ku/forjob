@@ -1,0 +1,4 @@
+#@SwitchHosts! {"url": null, "icon_idx": 0, "title": "image"}
+# image
+127.0.0.1 image.jt.com
+127.0.0.1 magen

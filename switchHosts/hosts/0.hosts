@@ -1,0 +1,4 @@
+#@SwitchHosts! {"url": null, "icon_idx": 0, "title": "\u4eac\u6dd8\u7535\u5546\u73af\u5883"}
+# 京淘电商环境
+127.0.0.1       image.jt.com
+

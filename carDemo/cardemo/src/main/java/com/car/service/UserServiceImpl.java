@@ -29,12 +29,13 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean userLogin(User user) {
+	public boolean userLogin(String username, String password) {
 		
-		if(userMapper.selectCount(new QueryWrapper(user))!=null)
-			return true;
+		User user = new User().setUsername(username).setPassword(password);
 		
-		return false;
+		System.out.println(userMapper.selectCount(new QueryWrapper(user)));
+		
+		return userMapper.selectCount(new QueryWrapper(user))!=0?true:false;
 		
 	}
 	

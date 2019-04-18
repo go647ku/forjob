@@ -6,7 +6,7 @@ public interface UserService {
 
 	void userRegister(String username, String password);
 
-	boolean userLogin(User user);
+	boolean userLogin(String username, String password);
 
 	
 }

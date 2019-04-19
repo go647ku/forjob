@@ -2,6 +2,7 @@ package com.car.service;
 
 import java.util.Date;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,18 @@ public class UserServiceImpl implements UserService{
 		
 		return userMapper.selectCount(new QueryWrapper(user))!=0?true:false;
 		
+	}
+
+	@Override
+	public User findUserById(Integer uId) {
+		
+		return userMapper.selectById(uId);
+	}
+
+	@Override
+	public User findUserByName(String username) {
+		
+		return userMapper.selectOne(new QueryWrapper(new User().setUsername(username)));
 	}
 	
 }

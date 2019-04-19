@@ -8,5 +8,9 @@ public interface UserService {
 
 	boolean userLogin(String username, String password);
 
+	User findUserById(Integer u_Id);
+
+	User findUserByName(String username);
+
 	
 }

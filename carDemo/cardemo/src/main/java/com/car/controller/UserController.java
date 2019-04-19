@@ -110,4 +110,11 @@ public class UserController {
 		return "/user/update";
 		
 	}
+	
+	@RequestMapping("/unAuth")
+	public String unAuth() {
+		
+		return "unAuth";
+		
+	}
 }

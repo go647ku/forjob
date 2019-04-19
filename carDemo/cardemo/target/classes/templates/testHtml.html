@@ -8,9 +8,14 @@
 <h3 th:text="${name}"></h3>
 
 <hr/>
-
+<div shiro:hasPermission="user:add">
 进入用户添加功能：<a href="/user/add">用户添加</a><br/>
-进入用户更新功能：<a href="/user/update">用户更新</a><br/>
+</div>
 
+<div shiro:hasPermission="user:update">
+进入用户更新功能：<a href="/user/update">用户更新</a><br/>
+</div>
+
+<a href="/user/index">登录</a>
 </body>
 </html>

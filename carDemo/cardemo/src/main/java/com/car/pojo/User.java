@@ -13,10 +13,11 @@ import lombok.experimental.Accessors;
 public class User extends BasePojo{
 	
 	@TableId(type=IdType.AUTO)
-	private Integer u_Id;
+	private Integer uId;
 	
 	private String username;
 	
 	private String password;
 	
+	private String perms;
 }

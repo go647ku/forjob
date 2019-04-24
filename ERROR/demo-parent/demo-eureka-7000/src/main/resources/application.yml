@@ -3,14 +3,10 @@ server:
 eureka:
   server:
     enable-self-preservation: true
-  instance:
-    hostname: localhost
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
   client:
     register-with-eureka: false
     fetch-registry: false
     service-url:
       defaultZone: http://localhost:7000/eureka
-    healthcheck:
-      enabled: true
+  instance:
+    hostname: localhost

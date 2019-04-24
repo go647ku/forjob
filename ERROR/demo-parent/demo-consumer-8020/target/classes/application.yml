@@ -8,7 +8,7 @@ spring:
     name: consumer-user
 eureka:
   client:
-      register-with-eureka: false    #不会将自己的信息注册到eureka中
+      # register-with-eureka: false    #不会将自己的信息注册到eureka中
       service-url:
        defaultZone: http://localhost:7000/eureka
 feign:

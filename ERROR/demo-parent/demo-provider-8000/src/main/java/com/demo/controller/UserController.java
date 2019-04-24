@@ -8,17 +8,24 @@ import org.springframework.web.bind.annotation.*;
 
 // 用户控制层
 @RestController
-@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/userRegister/{username}/{password}",method = RequestMethod.GET)
-	public String userRegister(User user) {
+	@RequestMapping("/userRegister")
+	public String userRegister(@RequestBody User user) {
 
 		return userService.userRegister(user);
 
 	}
+
+	@RequestMapping("/status")
+	public String status(){
+
+		return userService.status();
+
+	}
+
 
 }

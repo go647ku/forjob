@@ -26,4 +26,9 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+	@Override
+	public String status() {
+		return "服务1号";
+	}
+
 }

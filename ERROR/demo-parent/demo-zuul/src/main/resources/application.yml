@@ -1,0 +1,22 @@
+server:
+  port: 9050
+
+spring:
+  application:   #定义服务名称
+    name: springcloud-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7000/eureka
+  instance:
+    instance-id: springcloud-zuul-9050             #定义微服务的名称
+    prefer-ip-address: true                        #是否显示IP和端口
+    
+zuul:
+  #prefix: /                             #通过统一的公共前缀访问
+  #ignored-services: springcloud-user    #禁止通过某个服务名访问
+  #ignored-services: "*"                 #禁止通过全部服务名访问
+  routes:
+    user-service:
+      serviceId: consumer-user           #需要服务端映射路径名称
+      path:      /userService/**         #编辑浏览器输入地址  

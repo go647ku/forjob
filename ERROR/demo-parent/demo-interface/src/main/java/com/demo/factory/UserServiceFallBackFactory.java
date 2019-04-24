@@ -24,6 +24,13 @@ public class UserServiceFallBackFactory implements FallbackFactory<UserService>{
 				return "注册失败";
 			}
 
+			@Override
+			public String status(){
+
+				return "请等待";
+
+			}
+
 		};
 	}
 

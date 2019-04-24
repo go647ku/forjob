@@ -1,0 +1,24 @@
+server:
+  port: 8020
+  servlet:
+    context-path: /
+    
+spring:
+  application:   #定义服务名称
+    name: consumer-user
+eureka:
+  client:
+      # register-with-eureka: false    #不会将自己的信息注册到eureka中
+      service-url:
+       defaultZone: http://localhost:7000/eureka
+feign:
+    hystrix:
+      enabled: true                 #启动熔断器机制 !!!!!!!!!!!!!
+
+hystrix:
+  command:
+      default:
+        execution:
+         isolation:
+            thread:
+               timeoutInMilliseconds: 3000  #设定断路器超时时间

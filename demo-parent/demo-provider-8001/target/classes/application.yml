@@ -1,0 +1,32 @@
+server:
+  port: 8001
+# 设置端口
+
+spring:
+  datasource:
+    #引入druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    username: scott
+    password: scott
+  application:
+    name: provider-user
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7000/eureka
+
+  instance:
+    instance-id: provider-user-8001                #定义微服务的名称
+    prefer-ip-address: true                        #是否显示IP和端口
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 3
+mybatis-plus:
+  #identity: ORCAL
+  type-aliases-package: com.demo.pojo
+  mapper-locations: classpath:/mybatis/mappers/*.xml
+
+  configuration:
+    map-underscore-to-camel-case: true

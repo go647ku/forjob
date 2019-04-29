@@ -1,7 +1,6 @@
 server:
   port: 8091
 #端口号
-
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -9,6 +8,11 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:orcl
     username: scott
     password: scott
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+    static-path-pattern: /static/**
 
 mybatis-plus:
   type-aliases-package: com.amac.pojo

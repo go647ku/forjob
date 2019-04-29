@@ -18,6 +18,14 @@ public class OrgInfo {
     @TableId
     private Integer orgInfoId;
 
+    public List<PefPublicInfo> getPefPublicInfoList() {
+        return pefPublicInfoList;
+    }
+
+    public void setPefPublicInfoList(List<PefPublicInfo> pefPublicInfoList) {
+        this.pefPublicInfoList = pefPublicInfoList;
+    }
+
     /**
      * 中文全称
      */
@@ -159,11 +167,23 @@ public class OrgInfo {
      */
     private List<EdpDetail> edpDetailList;
 
+    /**
+     * 逻辑删除状态 0 未删  1 已删
+     */
+    private Integer dStatus;
 
+    public Integer getdStatus() {
+        return dStatus;
+    }
+
+    public void setdStatus(Integer dStatus) {
+        this.dStatus = dStatus;
+    }
 
     public HonestInfo getHonestInfo() {
         return honestInfo;
     }
+
 
     public void setHonestInfo(HonestInfo honestInfo) {
         this.honestInfo = honestInfo;

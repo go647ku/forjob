@@ -3,5 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.amac.mapper.OrgInfoMapper">
+    <!-- void deleteByIds(Integer[] ids); -->
+    <update id="logicDeleteByIds">
+        update demo_org_info set d_status = 1 where org_info_id in
+        <foreach collection="ids" item="item" open="(" close=")"  separator=",">
+            #{item}
+        </foreach>
+    </update>
 
+<!--    void physicDeleteByIds(Integer[] ids);-->
+    <delete id="physicDeleteByIds">
+        delete from demo_org_info where org_info_id in
+        <foreach collection="ids" item="item" open="(" close=")"  separator=",">
+            ${item}
+        </foreach>    and d_status = 1
+    </delete>
 </mapper>

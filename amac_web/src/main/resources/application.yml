@@ -1,0 +1,18 @@
+server:
+  port: 8091
+#端口号
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    username: scott
+    password: scott
+
+mybatis-plus:
+  type-aliases-package: com.amac.pojo
+  mapper-locations: classpath:/mybatis/mappers/*.xml
+
+  configuration:
+    map-underscore-to-camel-case: true

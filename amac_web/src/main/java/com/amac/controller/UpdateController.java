@@ -3,34 +3,31 @@ package com.amac.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.amac.pojo.LegalAdviceInfo;
 import com.amac.pojo.OrgInfo;
-import com.amac.service.InsertService;
+import com.amac.service.UpdateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 增
+ * 更新功能接口
  * @author qianP
  */
 @Controller
-@Api(value = "增加功能的接口")
-public class InsertController {
+@Api("更新功能接口")
+public class UpdateController {
 
     @Autowired
-    private InsertService insertService;
+    private UpdateService updateService;
 
-    /**
-     * 增加机构
-     * @param orgInfo
-     * @return
-     */
-    @ApiOperation("插入机构")
-    @PostMapping("/insertOrg")
+    @ApiOperation("执行更新功能")
+    @PostMapping("/doUpdate")
     @ResponseBody
-    public JSONObject insertOrg(@RequestBody @ApiParam(value = "插入的组织机构信息对象")OrgInfo orgInfo){
-        return insertService.insertOrg(orgInfo);
+    public JSONObject doUpdate(@RequestBody @ApiParam("获取更新的对象信息")OrgInfo orgInfo){
+        return updateService.doUpdate(orgInfo);
     }
+
 }

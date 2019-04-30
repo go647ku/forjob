@@ -13,6 +13,9 @@ spring:
       prefix: /templates/
       suffix: .html
     static-path-pattern: /static/**
+  http:
+    encoding:
+      charset: UTF-8
 
 mybatis-plus:
   type-aliases-package: com.amac.pojo

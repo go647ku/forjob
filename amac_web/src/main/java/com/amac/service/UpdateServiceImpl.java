@@ -13,12 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 增    服务实现类
- * @author qianP
+ * 更新业务
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class InsertServiceImpl implements InsertService{
+public class UpdateServiceImpl implements UpdateService {
 
     @Autowired
     private OrgInfoMapper orgInfoMapper;
@@ -27,26 +26,17 @@ public class InsertServiceImpl implements InsertService{
     private LegalAdviceInfoMapper legalAdviceInfoMapper;
 
     @Override
-    public JSONObject insertOrg(OrgInfo orgInfo) {
-
-        Map<String,Object> jsonMap = new HashMap<>();
-
+    public JSONObject doUpdate(OrgInfo orgInfo) {
+        Map<String,Object> jsopMap = new HashMap<>();
         try{
-            legalAdviceInfoMapper.insert(orgInfo.getLegalAdviceInfo());
+            legalAdviceInfoMapper.updateById(orgInfo.getLegalAdviceInfo());
             orgInfo.setLegalAdviceInfo(null);
-            orgInfoMapper.insert(orgInfo);
+            orgInfoMapper.updateById(orgInfo);
+            jsopMap.put("结果","更新成功");
         }catch (Exception e){
             e.printStackTrace();
-            jsonMap.put("结果","插入失败");
-            return new JSONObject(jsonMap);
+            jsopMap.put("结果","更新失败");
         }
-        jsonMap.put("结果","新增失败");
-        return new JSONObject(jsonMap);
+        return new JSONObject(jsopMap);
     }
-
-    /**
-     *  Map<String,Object> jsonMap = new HashMap<>();
-     *         jsonMap.put("orgInfo",orgInfo);
-     *         return new JSONObject(jsonMap).toJSONString();
-     */
 }

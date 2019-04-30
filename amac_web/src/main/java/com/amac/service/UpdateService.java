@@ -5,16 +5,16 @@ import com.amac.pojo.LegalAdviceInfo;
 import com.amac.pojo.OrgInfo;
 
 /**
- * 增    服务接口
+ * 更新业务接口
  * @author qianP
  */
-public interface InsertService {
+public interface UpdateService {
 
     /**
-     *实现插入机构
+     * 更新功能
      * @param orgInfo
      * @return
      */
-    JSONObject insertOrg(OrgInfo orgInfo);
+    JSONObject doUpdate(OrgInfo orgInfo);
 
 }

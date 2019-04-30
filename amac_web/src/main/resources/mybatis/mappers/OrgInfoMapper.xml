@@ -18,4 +18,15 @@
             ${item}
         </foreach>    and d_status = 1
     </delete>
+
+<!--    List<OrgInfo> doQueryById(Integer[] id);-->
+    <select id="doQueryById" resultType="OrgInfo">
+        select org_info_id,org_admin_cname,org_admin_ename,
+                login_id,pic_path,org_code,created,updated,register_area,
+                work_area,handin_money,register_money,money_percent,company_type,org_type,
+                bus_type,emp_number,org_web,is_third_party from demo_org_info 
+                where org_info_id in <foreach collection="id" item="item" open="(" close=")" separator=",">
+        ${item}
+    </foreach>
+    </select>
 </mapper>

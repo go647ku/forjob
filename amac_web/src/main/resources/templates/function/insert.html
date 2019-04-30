@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset=utf-8>
+    <title>机构信息</title>
+    <style>
+        table input{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="/static/js/jquery-3.1.1.min.js"></script>
+    <script type="javascript"></script>
+    <script type="text/javascript">
+        function doSubmit(form) {
+            /** 表单序列化成json字符串的方法  */
+            function form2JsonString(formId) {
+                var paramArray = $( '#' +formId).serializeArray();
+                /*请求参数转json对象*/
+                var jsonObj={};
+                var jsonObj2={};
+                $(paramArray).each(function(){
+                    if(this.name!="legalAdviceInfoId"&&this.name!="legalStatus") {
+                        jsonObj[this.name] = this.value;
+                    }
+                    jsonObj2["legalAdviceInfoId"]=document.getElementById("legalAdviceInfoId").value;
+                    jsonObj2["legalStatus"]=document.getElementById("legalStatus").value;
+                });
+                // console.log(jsonObj);
+                // json对象再转换成json字符串
+                jsonObj["legalAdviceInfo"]=jsonObj2;
+                return JSON.stringify(jsonObj);
+            };
+            var orgInfo = $(form).serialize();
+            console.log(orgInfo),
+                $.ajax({
+                    type:"POST",
+                    url: "/insertOrg",
+                    data: form2JsonString("orgInfo"),
+                    dataType:"json",
+                    contentType:"application/json;charset=utf-8",
+                    async: false,
+                    success: function(result) {
+                        alert("新增成功!")
+                    },
+                    error:function () {
+                        alert("erro")
+                    }
+                });
+        };
+        function doInput(){
+            var mainId = document.getElementById("orgInfoId").value;
+            $("#legalAdviceInfoId").val(mainId);
+        }
+    </script>
+</head>
+<body>
+<form id="orgInfo">
+
+    <table border="1">
+        <tr>
+            <th>主键</th>
+            <th>中文全称</th>
+            <th>英文全称</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><input type="text" name="orgInfoId" id="orgInfoId" onBlur="javaScript:doInput()"/></td>
+            <td><input type="text" name="orgAdminCname" id="orgAdminCname"/></td>
+            <td><input type="text" name="orgAdminEname" id="orgAdminEname"/></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>登记编号</th>
+            <th>二维码路径</th>
+            <th>组织机构代码</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><input type="text" name="loginId" id="loginId" /></td>
+            <td><input type="text" name="picPath" id="picPath"/></td>
+            <td><input type="text" name="orgCode" id="orgCode"/></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>成立时间</th>
+            <th>登记时间</th>
+            <th>注册地址</th>
+            <th></th>
+        </tr>
+
+        <tr>
+            <td><input type="date" name="created" /></td>
+            <td><input type="date" name="updated" /></td>
+            <td><input type="text" name="registerArea" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>企业性质</th>
+            <th>组织类型</th>
+            <th>员工人数</th>
+            <th>机构网址</th>
+        </tr>
+        <tr>
+            <td><input type="text" name="companyType" /></td>
+            <td><input type="text" name="orgType" /></td>
+            <td><input type="text" name="empNumber" /></td>
+            <td><input type="text" name="orgWeb" /></td>
+        </tr>
+        <tr>
+            <th>工作地址</th>
+            <th>上缴资金(万元)</th>
+            <th>注册资金(万元)</th>
+            <th>注册资本实缴比例</th>
+        </tr>
+        <tr>
+            <td><input type="text" name="workArea" /></td>
+            <td><input type="text" name="handinMoney" /></td>
+            <td><input type="text" name="registerMoney" /></td>
+            <td><input type="text" name="moneyPercent" /></td>
+        </tr>
+        <tr>
+            <th>法律意见书id</th>
+            <th>法律意见书状态</th>
+            <th>是否是否为符合提供投资建议条件的第三方机构:	</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><input type="text" name="legalAdviceInfoId" readonly id="legalAdviceInfoId"/></td>
+            <td><input type="text" name="legalStatus" id="legalStatus" /></td>
+            <td>
+                <select name="isThirdParty" style="width:100%;height:100%">
+                    <option value="1">是</option>
+                    <option value="0">不是</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="button" onclick="doSubmit(form)" value="上传机构信息">
+</form>
+</body>
+</html>

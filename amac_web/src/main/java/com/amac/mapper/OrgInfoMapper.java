@@ -19,4 +19,6 @@ public interface OrgInfoMapper extends BaseMapper<OrgInfo> {
     void logicDeleteByIds(@Param("ids")Integer... ids);
 
     void physicDeleteByIds(@Param("ids") Integer[] ids);
+
+    List<OrgInfo> doQueryById(@Param("id") Integer[] id);
 }

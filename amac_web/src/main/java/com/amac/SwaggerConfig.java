@@ -31,7 +31,7 @@ public class SwaggerConfig {
                 // 是否开启
                 .enable(swaggerEnabled).select()
                 // 扫描的路径包
-                .apis(RequestHandlerSelectors.basePackage("com.demo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.amac.controller"))
                 // 指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any()).build().pathMapping("/");
     }

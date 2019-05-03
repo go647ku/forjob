@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+ <!-- 声明一个bean对象
+ 		id:对象的唯一标志
+ 		class:对象的全路径
+ -->
+ <!-- ioc -->
+    <bean id = "hello" class = "com.tedu.hello.Hello" scope = "prototype"></bean>
+	<bean id = "user" class = "com.tedu.hello.User" scope = "prototype">
+	<!-- di
+		name: 实体对象的属性名
+		value: 实体对象的属性值
+	 -->
+	<property name = "name" value = "张慎政"></property>
+	<property name = "age" value = "32"></property>
+	<!-- di: 对象属性
+		 ref: 关联对象的bean标签的id值(引用另外一个bean标签)
+	-->
+	<property name = "info" ref = "userinfo"></property>
+	<property name = "list">
+		<list>
+			<value>王海涛</value>
+			<value>张慎政</value>
+		</list>
+	</property>
+	<property name = "set">
+		<set>
+			<value>恰饭</value>
+			<value>睡觉</value>
+			<value>打豆豆</value>
+		</set>
+	</property>
+	<property name = "map">
+		<map>
+			<entry key = "年龄" value = "18岁"></entry>
+			<entry key = "体重" value = "100斤"></entry>
+		</map>
+	</property>
+	<property name = "dbprop">
+		<props>
+			<prop key = "username">root</prop>
+			<prop key = "password">root</prop>
+		</props>
+	</property>
+	</bean>
+	<!-- 描述的是关联对象的信息userinfo -->
+	<bean id = "userinfo" class = "com.tedu.hello.UserInfo">
+	<property name = "skin" value = "黄种人"></property>
+	</bean>
+	<!-- ioc -->
+	<bean id = "dept" class = "com.tedu.hello.Dept">
+		<!-- index: 索引 参数的位置
+		 -->
+		<constructor-arg index = "0" value = "001"></constructor-arg>
+		<constructor-arg index = "1" value = "软件研发部"></constructor-arg>
+	</bean>
+	
+</beans>
